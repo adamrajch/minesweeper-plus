@@ -1,12 +1,13 @@
-import { Box, Button, Grid, Group, Stack } from "@mantine/core";
+import { Box, Button, Group, SimpleGrid, Stack } from "@mantine/core";
 import React, { useState } from "react";
 import { generateCells } from "../../utils";
+import TileButton from "./Button";
 import NumDisplay from "./NumDisplay";
 
 type Props = {};
 
 export default function Game() {
-  const [cells, setCells] = useState(generateCells({ row: 9, col: 9 }));
+  const [cells, setCells] = useState(generateCells({ MAX_ROW: 9, MAX_COL: 9 }));
 
   console.log(cells);
 
@@ -14,13 +15,21 @@ export default function Game() {
     return cells.map((row, rowIndex) =>
       row.map((cell, colIndex) => {
         return (
-          <Grid.Col key={`${rowIndex}+${colIndex}`} span={1}>
-            <Button
-              sx={{
-                width: "100%",
-              }}
-            >{`${rowIndex}+${colIndex}`}</Button>
-          </Grid.Col>
+          <Box
+            key={`${rowIndex}+${colIndex}`}
+            sx={{
+              height: "30px",
+              width: "30px",
+              border: "1px solid black",
+            }}
+          >
+            <TileButton
+              row={rowIndex}
+              col={colIndex}
+              state={cell.state}
+              value={cell.value}
+            />
+          </Box>
         );
       })
     );
@@ -31,10 +40,14 @@ export default function Game() {
       justify="center"
       sx={(theme) => ({
         border: "1px solid white",
-        // width: "600px",
         margin: "auto",
       })}
     >
+      <Button
+        onClick={() => setCells(generateCells({ MAX_ROW: 9, MAX_COL: 9 }))}
+      >
+        Generate
+      </Button>
       <Group position="apart" p="md">
         <Box>
           <NumDisplay value={12} />
@@ -44,9 +57,9 @@ export default function Game() {
           <NumDisplay value={50} />
         </Box>
       </Group>
-      <Grid columns={9} gutter={0}>
+      <SimpleGrid cols={9} spacing={0}>
         {renderCells()}
-      </Grid>
+      </SimpleGrid>
     </Stack>
   );
 }
