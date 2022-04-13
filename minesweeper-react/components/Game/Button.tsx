@@ -1,4 +1,4 @@
-import { Button } from "@mantine/core";
+import { UnstyledButton } from "@mantine/core";
 import React from "react";
 import { CellState, CellValue } from "../../types";
 
@@ -7,8 +7,17 @@ interface ButtonProps {
   col: number;
   state: CellState;
   value: CellValue;
+  onClick(rowParam: number, colParam: number): (e: React.MouseEvent) => void;
+  onContext(rowParam: number, colParam: number): any;
 }
-export default function TileButton({ row, col, state, value }: ButtonProps) {
+export default function TileButton({
+  row,
+  col,
+  state,
+  value,
+  onClick,
+  onContext,
+}: ButtonProps) {
   const renderContent = (): React.ReactNode => {
     if (state === CellState.visible) {
       if (value === CellValue.bomb) {
@@ -26,16 +35,31 @@ export default function TileButton({ row, col, state, value }: ButtonProps) {
     return null;
   };
 
-  console.log(value);
-
   return (
-    <Button
+    <UnstyledButton
+      onClick={onClick(row, col)}
+      onContextMenu={onContext(row, col)}
       sx={{
+        boxSizing: "border-box",
         borderRadius: 0,
         padding: 0,
         height: "100%",
         width: "100%",
-        backgroundColor: "gainsboro",
+
+        borderTop:
+          state !== CellState.visible ? "2px solid white" : "1px solid #7b7b7b",
+        borderLeft:
+          state !== CellState.visible ? "2px solid white" : "1px solid #7b7b7b",
+        borderRight:
+          state !== CellState.visible
+            ? "2px solid #7b7b7b"
+            : "1px solid #7b7b7b",
+        borderBottom:
+          state !== CellState.visible
+            ? "2px solid #7b7b7b"
+            : "1px solid #7b7b7b",
+        backgroundColor:
+          state === CellState.visible ? "gainsboro" : "gainsboro",
         color:
           value && value === 1
             ? "blue"
@@ -52,9 +76,10 @@ export default function TileButton({ row, col, state, value }: ButtonProps) {
             : value === 7
             ? "black"
             : "gray",
+        textAlign: "center",
       }}
     >
       {renderContent()}
-    </Button>
+    </UnstyledButton>
   );
 }
