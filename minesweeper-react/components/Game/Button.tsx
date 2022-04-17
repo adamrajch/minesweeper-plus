@@ -7,6 +7,7 @@ interface ButtonProps {
   col: number;
   state: CellState;
   value: CellValue;
+  red?: boolean;
   onClick(rowParam: number, colParam: number): (e: React.MouseEvent) => void;
   onContext(rowParam: number, colParam: number): any;
 }
@@ -17,6 +18,7 @@ export default function TileButton({
   value,
   onClick,
   onContext,
+  red,
 }: ButtonProps) {
   const renderContent = (): React.ReactNode => {
     if (state === CellState.visible) {
@@ -45,7 +47,6 @@ export default function TileButton({
         padding: 0,
         height: "100%",
         width: "100%",
-
         borderTop:
           state !== CellState.visible ? "2px solid white" : "1px solid #7b7b7b",
         borderLeft:
@@ -59,7 +60,7 @@ export default function TileButton({
             ? "2px solid #7b7b7b"
             : "1px solid #7b7b7b",
         backgroundColor:
-          state === CellState.visible ? "gainsboro" : "gainsboro",
+          state === CellState.visible ? "gainsboro" : red ? "red" : "gainsboro",
         color:
           value && value === 1
             ? "blue"

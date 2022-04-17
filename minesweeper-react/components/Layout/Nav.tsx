@@ -6,6 +6,7 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 import React from "react";
+import ColorModeSwitch from "./ColorSwitch";
 
 type Props = {};
 
@@ -17,7 +18,7 @@ export default function Nav() {
       <Text>ARDev</Text>
       <Title align="center">Minsweeper Plus</Title>
       <Group position="right">
-        <Button onClick={() => toggleColorScheme()}>ColorMode</Button>
+        <ColorModeSwitch />
         <Button>Settings</Button>
       </Group>
     </Group>

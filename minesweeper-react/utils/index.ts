@@ -3,11 +3,16 @@ import { Cell, CellState, CellValue } from "../types";
 interface GameRowCol {
   MAX_ROW: number;
   MAX_COL: number;
+  numMines: number;
 }
 
-export const generateCells = ({ MAX_ROW, MAX_COL }: GameRowCol): Cell[][] => {
+export const generateCells = ({
+  MAX_ROW,
+  MAX_COL,
+  numMines,
+}: GameRowCol): Cell[][] => {
   let cells: Cell[][] = [];
-
+  console.log("generating :", MAX_ROW, MAX_COL, numMines);
   //generate cells
   for (let i = 0; i < MAX_ROW; i++) {
     cells.push([]);
@@ -21,10 +26,10 @@ export const generateCells = ({ MAX_ROW, MAX_COL }: GameRowCol): Cell[][] => {
 
   //place mines - dont hard code the number ( eventually put difficulty)
   let minesPlaced = 0;
-  let numMines = 10;
+
   while (minesPlaced < numMines) {
-    const randomRow = Math.floor(Math.random() * 9);
-    const randomCol = Math.floor(Math.random() * 9);
+    const randomRow = Math.floor(Math.random() * MAX_ROW);
+    const randomCol = Math.floor(Math.random() * MAX_COL);
 
     const currentCell = cells[randomRow][randomCol];
 
@@ -99,8 +104,8 @@ const grabAllAdjacentCells = (
   cells: Cell[][],
   rowParam: number,
   colParam: number,
-  MAX_COLS: number,
-  MAX_ROWS: number
+  MAX_ROWS: number,
+  MAX_COLS: number
 ): {
   topLeftCell: Cell | null;
   topCell: Cell | null;
@@ -111,6 +116,8 @@ const grabAllAdjacentCells = (
   bottomCell: Cell | null;
   bottomRightCell: Cell | null;
 } => {
+  console.log("adjuscent", MAX_ROWS);
+  console.log("adjuscent cols", MAX_COLS);
   const topLeftCell =
     rowParam > 0 && colParam > 0 ? cells[rowParam - 1][colParam - 1] : null;
   const topCell = rowParam > 0 ? cells[rowParam - 1][colParam] : null;

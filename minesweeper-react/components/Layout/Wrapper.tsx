@@ -15,7 +15,7 @@ export default function Wrapper({ children }: Props) {
           align="stretch"
           justify="center"
           sx={(theme) => ({
-            height: "80vh",
+            height: "100%",
           })}
         >
           {children}
